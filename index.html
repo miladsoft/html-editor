@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Custom HTML Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+        .editor-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            min-height: 300px;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+        .toolbar {
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .toolbar button, .toolbar select, .toolbar input[type="color"] {
+            padding: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Custom HTML Editor</h1>
+    
+    <div class="toolbar">
+        <select onchange="document.execCommand('fontName', false, this.value);">
+            <option selected disabled>Font Style</option>
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Tahoma">Tahoma</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+        
+        <select onchange="document.execCommand('fontSize', false, this.value);">
+            <option selected disabled>Font Size</option>
+            <option value="1">Small</option>
+            <option value="3">Normal</option>
+            <option value="5">Large</option>
+            <option value="7">Huge</option>
+        </select>
+
+        <input type="color" onchange="document.execCommand('foreColor', false, this.value);" title="Text Color">
+        <input type="color" onchange="document.execCommand('hiliteColor', false, this.value);" title="Background Color">
+
+        <button onclick="document.execCommand('bold', false, null);"><b>Bold</b></button>
+        <button onclick="document.execCommand('italic', false, null);"><i>Italic</i></button>
+        <button onclick="document.execCommand('underline', false, null);"><u>Underline</u></button>
+
+        <button onclick="document.execCommand('insertOrderedList', false, null);">Ordered List</button>
+        <button onclick="document.execCommand('insertUnorderedList', false, null);">Unordered List</button>
+
+        <button onclick="document.execCommand('justifyLeft', false, null);">Left Align</button>
+        <button onclick="document.execCommand('justifyCenter', false, null);">Center Align</button>
+        <button onclick="document.execCommand('justifyRight', false, null);">Right Align</button>
+
+        <button onclick="document.execCommand('createLink', false, prompt('Enter URL:', 'http://'));">Link</button>
+        <button onclick="document.execCommand('unlink', false, null);">Remove Link</button>
+
+        <button onclick="document.execCommand('insertImage', false, prompt('Enter Image URL:', 'http://'));">Insert Image</button>
+
+        <button onclick="insertEmoji('😊');">😊</button>
+        <button onclick="insertEmoji('😂');">😂</button>
+        <button onclick="insertEmoji('❤️');">❤️</button>
+        <button onclick="insertEmoji('👍');">👍</button>
+    </div>
+    
+    <div class="editor-container" contenteditable="true">
+        <p>Start editing your text here...</p>
+    </div>
+
+    <h2>HTML Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        // Function to update output
+        function updateOutput() {
+            const output = document.getElementById('output');
+            const editor = document.querySelector('.editor-container');
+            output.textContent = editor.innerHTML;
+        }
+
+        // Update output on content change
+        document.querySelector('.editor-container').addEventListener('input', updateOutput);
+        
+        // Function to insert emojis
+        function insertEmoji(emoji) {
+            document.execCommand('insertText', false, emoji);
+        }
+
+        // Initial output
+        updateOutput();
+    </script>
+</body>
+</html>
